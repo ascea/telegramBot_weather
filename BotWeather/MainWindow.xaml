@@ -1,0 +1,59 @@
+﻿<Window x:Class="BotWeather.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BotWeather"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Closed="Window_Closed">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.45*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="0.3*" />
+        </Grid.ColumnDefinitions>
+
+        <ListBox x:Name="usersList" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Users}"
+                 Margin="5,5,5,5" SelectedItem="{Binding SelectedUser}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Id}" Width="10" Margin="5 0" />
+                        <TextBlock Text="{Binding TelegramId}" Width="60" Margin="5 0" />
+                        <TextBlock Text="{Binding FirstName}" Width="30" Margin="5 0" />
+                        <TextBlock Text="{Binding Date}" Width="30" Margin="5 0" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListBox x:Name="messagesList" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding UserMessages, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="5,5,5,5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding UserId}" Width="10" Margin="5 0" />
+                        <TextBlock Text="{Binding ChatId}" Width="60" Margin="5 0" />
+                        <TextBlock Text="{Binding Date, StringFormat='dd.MM.yy hh.mm.ss'}" Width="100" Margin="5 0" />
+                        <TextBlock Text="{Binding Text}" Margin="5 0" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" Text="{Binding TextMessage}"/>
+        <Button Grid.Row="2" Grid.Column="2" Margin="5,5,5,5"
+                Content="Отправить" Command="{Binding SendMessageCommand}" />
+
+        <StackPanel Grid.Row="1" Grid.Column="2">
+            <Button Content="Start" Command="{Binding StartTelegramReceived}" Margin="5" />
+            <Button Content="Stop" Command="{Binding StopTelegramReceived}" Margin="5" />
+            <Button Content="Отправить прогноз" Command="{Binding SendWeather}" Margin="5" />
+        </StackPanel>
+    </Grid>
+</Window>
