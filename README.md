@@ -7,12 +7,12 @@
 Пример содержания:
 {
   "ConnectionStrings": {
-      "DefaultConnection": "<connection string>",
+      "DefaultConnection": "connectionString",
   },
-  "TelegramToken": "<telegram bot token>",
-  "WeatherToken": "<weather token>"
+  "TelegramToken": "telegramBotToken",
+  "WeatherToken": "weatherToken"
 }
 
-<connection string> - строка подключения к MsSql server;
-<telegram bot token> - токен telegram бота;
-<weather token> - токен от сайта https://openweathermap.org/
+connectionString - строка подключения к MsSql server;
+telegramBotToken - токен telegram бота;
+weatherToken - токен от сайта https://openweathermap.org/
