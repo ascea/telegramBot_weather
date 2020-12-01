@@ -45,7 +45,7 @@ namespace BotWeather
 
             timerUpdateUserMessages = new System.Timers.Timer(1000);
             timerUpdateUserMessages.Elapsed += Timer_Elapsed;
-            timerUpdateUserMessages.Start();
+            //timerUpdateUserMessages.Start();
         }
 
         public void Close()
@@ -98,6 +98,7 @@ namespace BotWeather
             }
         }
 
+        #region Commands
         private RelayCommand startTelegramReceived;
         public RelayCommand StartTelegramReceived
         {
@@ -137,6 +138,7 @@ namespace BotWeather
                     {
                         telegramBot.Send(SelectedUser.TelegramId, TextMessage);
                         TextMessage = "";
+                        UpdateUserMessages();
                     }));
             }
         }
@@ -154,10 +156,12 @@ namespace BotWeather
                             weather.GetWeather("Moscow", units: "metric", lang: "ru");
                             string str = weather.GetCurrentTemp();
                             telegramBot.Send(SelectedUser.TelegramId, str);
+                            UpdateUserMessages();
                         }
                     }));
             }
         }
+        #endregion
 
         private void UpdateUserMessages()
         {
@@ -173,6 +177,12 @@ namespace BotWeather
         {
             long chatId = (long)obj[0];
             string message = obj[1].ToString();
+
+            if (SelectedUser.TelegramId == chatId)
+            {
+                UpdateUserMessages();
+            }
+
             Regex regex = new Regex(@"^/([tт])\s(\w+)$", RegexOptions.IgnoreCase);
             Match match = regex.Match(message);
             
@@ -190,6 +200,10 @@ namespace BotWeather
                 catch (Exception)
                 {
                     telegramBot.Send(chatId, "Неправильное название города");
+                }
+                finally
+                {
+                    UpdateUserMessages();
                 }
             }
         }
